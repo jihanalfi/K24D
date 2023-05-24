@@ -12,6 +12,8 @@ import CoreML
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
+    private var requests = [VNRequest]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Start Scanning"
@@ -38,27 +40,58 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
+        
         guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
         //
         guard let model = try? VNCoreMLModel(for: CardDetectorModel().model) else {
             fatalError("Failed to load CoreML Model") }
         
-        let request = VNCoreMLRequest(model: model){
-            (finishedReq, err) in
-            guard let results = finishedReq.results as? [VNDetectedObjectObservation] else {
-                fatalError("cannot get result from VNCoreMLRequest") }
+        do {
+            let request = VNCoreMLRequest(model: model){
+                (finishedReq, err) in
+                //            guard let results = finishedReq.results as? [VNDetectedObjectObservation] else {
+                //                fatalError("cannot get result from VNCoreMLRequest")
+                DispatchQueue.main.async ( execute:{
+                    if let results = finishedReq.results {
+                        if results.count != 4{
+                            print("number of cards detected: \(results.count)")
+                        }
+//                        self.findOperationResult(results: results)
+                    }
+                })
+            }
+            
+            try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
 
-            guard let firstObservation = results.first else { return }
-//            print("identifier: " + firstObservation.identifier)
-//            print("confidence: ")
-            print(firstObservation)
-            print("end")
+        } catch let error as NSError {
+            print("Output model went wrong: \(error)")
         }
 
-        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
     }
+    
+    func findOperationResult(results: [Any]) {
+        for observation in results where observation is VNRecognizedObjectObservation {
+            guard let objectObservation = observation as? VNRecognizedObjectObservation else { continue }
+            let labelObservation = objectObservation.labels[0]
+            // switch case Ace as 1/11, J Q K as 10
+            // possibilities to find 24
+        }
+    }
+    
+    
+
+//            guard let firstObservation = results.first else { return }
+//            print("identifier: " + firstObservation.identifier)
+//            print("confidence: ")
+//            print(firstObservation)
+//            print("end")
+//        }
+
+//        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+    
+    
+//    }
 
 
     /*
