@@ -123,14 +123,56 @@ to the number 24. </string>
                     <view key="view" contentMode="scaleToFill" id="PIK-FE-Mi5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ruw-mf-O0g">
+                                <rect key="frame" x="50" y="106" width="277" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPJ-SW-rMT">
+                                <rect key="frame" x="50" y="684" width="277" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HtS-gu-CIu"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Label">
+                                        <attributes>
+                                            <font key="NSFont" size="17" name="SFPro-Heavy"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Z5-UU-pfc">
+                                <rect key="frame" x="50" y="713" width="277" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="wd8-jW-LY4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wd8-jW-LY4" firstAttribute="trailing" secondItem="ruw-mf-O0g" secondAttribute="trailing" constant="48" id="5KR-c4-auR"/>
+                            <constraint firstItem="ruw-mf-O0g" firstAttribute="leading" secondItem="mPJ-SW-rMT" secondAttribute="leading" id="MRe-N2-UMX"/>
+                            <constraint firstItem="ruw-mf-O0g" firstAttribute="top" secondItem="wd8-jW-LY4" secondAttribute="top" constant="12" id="Xmw-7q-lZw"/>
+                            <constraint firstItem="ruw-mf-O0g" firstAttribute="trailing" secondItem="mPJ-SW-rMT" secondAttribute="trailing" id="rKB-ep-7ka"/>
+                            <constraint firstItem="ruw-mf-O0g" firstAttribute="leading" secondItem="wd8-jW-LY4" secondAttribute="leading" constant="50" id="ywQ-P6-tZD"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="b5U-7n-VoM"/>
+                    <connections>
+                        <outlet property="ResultDetail" destination="4Z5-UU-pfc" id="zD3-ni-AHx"/>
+                        <outlet property="ResultTitle" destination="mPJ-SW-rMT" id="1Ld-Bu-0l1"/>
+                        <outlet property="Status" destination="ruw-mf-O0g" id="25W-m9-RuI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OzN-nQ-vyH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1724" y="-2"/>
+            <point key="canvasLocation" x="1724" y="-2.2167487684729066"/>
         </scene>
     </scenes>
     <resources>

@@ -16,10 +16,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var isAnalyzing: Bool = false
     private var frozenImageView: UIImageView?
 
-
+    @IBOutlet weak var Status: UILabel!
+    @IBOutlet weak var ResultTitle: UILabel!
+    @IBOutlet weak var ResultDetail: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Start Scanning"
+        self.title = "Start Scanning"
+        self.Status.text = "Scan scan"
+        self.ResultTitle.text = ""
+        self.ResultDetail.text = ""
         
         // ``
         let session = AVCaptureSession()
@@ -65,17 +71,28 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     if let results = finishedReq.results {
                         if results.count != 4{
                             self.isAnalyzing = false
+                            self.Status.text = "Card is not 4!"
+                            self.ResultTitle.text = ""
+                            self.ResultDetail.text = ""
+
+                            
                         } else {
                             let cardObservationResult: [Int] = self.findOperationResult(results: results)
                             if !self.isAnalyzing {
                                 self.isAnalyzing = true
-//                                self.freezeFrame(pixelBuffer)
                                 let combinationObservationResult = self.findNumber24(cardObservationResult)
+                                self.Status.text = "Analyzing ..."
                                 print("analyzing from \(cardObservationResult) results \(combinationObservationResult)")
                                 if combinationObservationResult.count == 0 {
+                                    self.Status.text = "Found the operation to 24!"
                                     print("24 combination not found")
+                                    self.ResultTitle.text = ""
+                                    self.ResultDetail.text = ""
                                 } else {
                                     print("found brooo")
+                                    self.ResultTitle.text = ""
+                                    self.ResultDetail.text = "Result found: \(combinationObservationResult[0])"
+
                                 }
                             }
                         }
