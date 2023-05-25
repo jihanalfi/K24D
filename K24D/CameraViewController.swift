@@ -64,14 +64,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 DispatchQueue.main.async ( execute:{
                     if let results = finishedReq.results {
                         if results.count != 4{
-//                            print("number of cards detected: \(results.count)")
                             self.isAnalyzing = false
                         } else {
-                            var listOfResult: [Int] = self.findOperationResult(results: results)
+                            let cardObservationResult: [Int] = self.findOperationResult(results: results)
                             if !self.isAnalyzing {
                                 self.isAnalyzing = true
 //                                self.freezeFrame(pixelBuffer)
-                                
+                                let combinationObservationResult = self.findNumber24(cardObservationResult)
+                                print("analyzing from \(cardObservationResult) results \(combinationObservationResult)")
+                                if combinationObservationResult.count == 0 {
+                                    print("24 combination not found")
+                                } else {
+                                    print("found brooo")
+                                }
                             }
                         }
                     }
@@ -149,48 +154,31 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             observedResults.append(convertedValue)
         }
-        print(observedResults)
-        
         return observedResults
     }
     
-    func find24Number(_ a: Int, _ b: Int, _ c: Int, _ d: Int) -> String? {
+    
+    func findNumber24(_ array: [Int]) -> [String] {
+        let nums = array
         let operators: [String] = ["+", "-", "*", "/"]
         
-        func evaluateExpression(_ expression: String) -> Bool {
-            do {
-                let result = try NSExpression(format: expression).expressionValue(with: nil, context: nil) as? Double
-                return result == 24
-            } catch {
-                return false
-            }
-        }
-        
-        func backtrack(_ expression: String) -> String? {
-            if expression.count == 7 {
-                if evaluateExpression(expression) {
-                    return expression
-                }
-                return nil
-            }
-            
-            for number in [a, b, c, d] {
-                for operatorSymbol in operators {
-                    let newExpression = expression + "\(number)" + operatorSymbol
-                    if let result = backtrack(newExpression) {
-                        return result
+        var perms: [String] = []
+        for i in 0..<4 {
+            for j in 0..<4 {
+                for k in 0..<4 {
+                    // Build the expression
+                    let expression = "(\(nums[0]) \(operators[i]) \(nums[1])) \(operators[j]) (\(nums[2]) \(operators[k]) \(nums[3]))"
+                    
+                    // Solve expression and check if it equals 24
+                    if let result = NSExpression(format: expression).expressionValue(with: nil, context: nil) as? Double,
+                        result == 24 {
+                        perms.append(expression)
                     }
                 }
             }
-            
-            return nil
         }
-        
-        let expression = backtrack("")
-        return expression
+        return perms
     }
-    
-
     /*
     // MARK: - Navigation
 
