@@ -30,13 +30,6 @@ class ObjectDetectionViewController: UIViewController {
         let config = MLModelConfiguration()
         config.computeUnits = .all
         
-//        // Load CoreML model
-//        let coreMLModel = try CardDetectorModel(configuration:  config)
-//        
-//        // create a Vision wrapper for CoreML model
-//        let visionModel = try VNCoreMLModel(for: coreMLModel.model)
-//        visionModel.inputImageFeatureName = "image"
-        
         
     }
 

@@ -14,7 +14,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     private var requests = [VNRequest]()
     private var isAnalyzing: Bool = false
+    private var isPaused: Bool = false
     private var frozenImageView: UIImageView?
+    private var session: AVCaptureSession?
+
 
     @IBOutlet weak var Status: UILabel!
     @IBOutlet weak var ResultTitle: UILabel!
@@ -23,13 +26,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Start Scanning"
-        self.Status.text = "Scan scan"
         self.ResultTitle.text = ""
         self.ResultDetail.text = ""
+
         
-        // ``
         let session = AVCaptureSession()
         session.sessionPreset = .photo
+        self.session = session
+        
         
         guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
         
@@ -46,10 +50,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
         session.addOutput(dataOutput)
         
-        frozenImageView = UIImageView(frame: view.bounds)
-        frozenImageView?.contentMode = .scaleAspectFit
-        frozenImageView?.isHidden = true
-        view.addSubview(frozenImageView!)
+//        frozenImageView = UIImageView(frame: view.bounds)
+//        frozenImageView?.contentMode = .scaleAspectFit
+//        frozenImageView?.isHidden = true
+//        view.addSubview(frozenImageView!)
 
 
     }
@@ -58,40 +62,45 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
-        //
         guard let model = try? VNCoreMLModel(for: CardDetectorModel().model) else {
             fatalError("Failed to load CoreML Model") }
         
         do {
             let request = VNCoreMLRequest(model: model){
                 (finishedReq, err) in
-                //            guard let results = finishedReq.results as? [VNDetectedObjectObservation] else {
-                //                fatalError("cannot get result from VNCoreMLRequest")
                 DispatchQueue.main.async ( execute:{
+                    self.Status.text = "Show the cards"
+
                     if let results = finishedReq.results {
+                        self.Status.text = "Analyzing ..."
+
                         if results.count != 4{
                             self.isAnalyzing = false
                             self.Status.text = "Card is not 4!"
                             self.ResultTitle.text = ""
                             self.ResultDetail.text = ""
-
                             
                         } else {
                             let cardObservationResult: [Int] = self.findOperationResult(results: results)
                             if !self.isAnalyzing {
                                 self.isAnalyzing = true
                                 let combinationObservationResult = self.findNumber24(cardObservationResult)
-                                self.Status.text = "Analyzing ..."
                                 print("analyzing from \(cardObservationResult) results \(combinationObservationResult)")
                                 if combinationObservationResult.count == 0 {
-                                    self.Status.text = "Found the operation to 24!"
+                                    self.Status.text = "Can't find 24:("
                                     print("24 combination not found")
-                                    self.ResultTitle.text = ""
+                                    self.ResultTitle.text = "Can't find 24!"
                                     self.ResultDetail.text = ""
                                 } else {
-                                    print("found brooo")
-                                    self.ResultTitle.text = ""
-                                    self.ResultDetail.text = "Result found: \(combinationObservationResult[0])"
+                                    self.Status.text = "Yeay! Found the 24!"
+                                    self.ResultTitle.text = "Here's the mathematical operation:"
+                                    self.ResultDetail.text = "\(combinationObservationResult[0])"
+
+                                    // stop the AV Session, freeze the AVCapture Video Data Output
+                                    self.isPaused = true
+                                    self.session?.stopRunning()
+                                    self.session = nil
+
 
                                 }
                             }
@@ -136,7 +145,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         var observedResults: [Int] = []
         for observation in results where observation is VNRecognizedObjectObservation {
             guard let objectObservation = observation as? VNRecognizedObjectObservation else { continue }
-            var value = objectObservation.labels[0].identifier
+            let value = objectObservation.labels[0].identifier
             var convertedValue: Int
             switch value {
             case "Ace":
