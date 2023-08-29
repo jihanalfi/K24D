@@ -70,19 +70,35 @@
 			children = (
 				2618E0782A1C5DCD00B44E6A /* AppDelegate.swift */,
 				2618E07A2A1C5DCD00B44E6A /* SceneDelegate.swift */,
-				2618E07C2A1C5DCD00B44E6A /* LandingPageViewController.swift */,
-				2618E0982A1C66BD00B44E6A /* CameraViewController.swift */,
-				2618E09E2A1CB8B900B44E6A /* ObjectDetectionViewController.swift */,
-				2618E0942A1C5EC200B44E6A /* Main.storyboard */,
+				26E850622A9D9F3700E82171 /* Resources */,
+				26E850612A9D9CCD00E82171 /* Controller */,
 				2618E08C2A1C5E1200B44E6A /* iconCard.png */,
 				2618E08E2A1C5E1D00B44E6A /* onboardingAsset.png */,
 				2618E0812A1C5DCE00B44E6A /* Assets.xcassets */,
-				2618E09A2A1CAAC300B44E6A /* CardDetectorModel.mlmodel */,
-				26BEC9DC2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel */,
+				2618E0942A1C5EC200B44E6A /* Main.storyboard */,
 				2618E0922A1C5EAC00B44E6A /* LaunchScreen.storyboard */,
 				2618E0862A1C5DCE00B44E6A /* Info.plist */,
 			);
 			path = K24D;
+			sourceTree = "<group>";
+		};
+		26E850612A9D9CCD00E82171 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2618E07C2A1C5DCD00B44E6A /* LandingPageViewController.swift */,
+				2618E0982A1C66BD00B44E6A /* CameraViewController.swift */,
+				2618E09E2A1CB8B900B44E6A /* ObjectDetectionViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		26E850622A9D9F3700E82171 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2618E09A2A1CAAC300B44E6A /* CardDetectorModel.mlmodel */,
+				26BEC9DC2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
