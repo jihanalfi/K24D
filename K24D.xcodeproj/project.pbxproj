@@ -18,6 +18,7 @@
 		2618E0992A1C66BD00B44E6A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618E0982A1C66BD00B44E6A /* CameraViewController.swift */; };
 		2618E09B2A1CAAC400B44E6A /* CardDetectorModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2618E09A2A1CAAC300B44E6A /* CardDetectorModel.mlmodel */; };
 		2618E09F2A1CB8B900B44E6A /* ObjectDetectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618E09E2A1CB8B900B44E6A /* ObjectDetectionViewController.swift */; };
+		26BEC9DD2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 26BEC9DC2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		2618E0982A1C66BD00B44E6A /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		2618E09A2A1CAAC300B44E6A /* CardDetectorModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CardDetectorModel.mlmodel; sourceTree = "<group>"; };
 		2618E09E2A1CB8B900B44E6A /* ObjectDetectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionViewController.swift; sourceTree = "<group>"; };
+		26BEC9DC2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = NewCardDetectionModel.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				2618E08E2A1C5E1D00B44E6A /* onboardingAsset.png */,
 				2618E0812A1C5DCE00B44E6A /* Assets.xcassets */,
 				2618E09A2A1CAAC300B44E6A /* CardDetectorModel.mlmodel */,
+				26BEC9DC2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel */,
 				2618E0922A1C5EAC00B44E6A /* LaunchScreen.storyboard */,
 				2618E0862A1C5DCE00B44E6A /* Info.plist */,
 			);
@@ -161,6 +164,7 @@
 				2618E09F2A1CB8B900B44E6A /* ObjectDetectionViewController.swift in Sources */,
 				2618E09B2A1CAAC400B44E6A /* CardDetectorModel.mlmodel in Sources */,
 				2618E07B2A1C5DCD00B44E6A /* SceneDelegate.swift in Sources */,
+				26BEC9DD2A88666D00BA6AE9 /* NewCardDetectionModel.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

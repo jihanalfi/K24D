@@ -62,7 +62,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
-        guard let model = try? VNCoreMLModel(for: CardDetectorModel().model) else {
+        guard let model = try? VNCoreMLModel(for: NewCardDetectionModel().model) else {
             fatalError("Failed to load CoreML Model") }
         
         do {
@@ -148,7 +148,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let value = objectObservation.labels[0].identifier
             var convertedValue: Int
             switch value {
-            case "Ace":
+            case "A":
                 convertedValue = 1
             case "2":
                 convertedValue = 2
@@ -176,7 +176,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 convertedValue = 10
                 
             default:
-                convertedValue = 999
+                convertedValue = 0
             }
             observedResults.append(convertedValue)
         }
