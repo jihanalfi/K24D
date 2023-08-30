@@ -28,28 +28,35 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         self.title = "Start Scanning"
         self.ResultTitle.text = ""
         self.ResultDetail.text = ""
+        self.Status.text = "Show the cards"
 
         
-        let session = AVCaptureSession()
-        session.sessionPreset = .photo
-        self.session = session
-        
-        
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
-        
-        guard let input = try? AVCaptureDeviceInput(device: captureDevice) else { return }
-        
-        session.addInput(input)
-        session.startRunning()
-        
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        view.layer.addSublayer(previewLayer)
-        previewLayer.frame = view.frame
-        
-        let dataOutput = AVCaptureVideoDataOutput()
-        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-        session.addOutput(dataOutput)
-        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let session = AVCaptureSession()
+            session.sessionPreset = .photo
+            self.session = session
+            
+            
+            guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+            
+            guard let input = try? AVCaptureDeviceInput(device: captureDevice) else { return }
+            
+            if !self.isPaused{
+                session.addInput(input)
+                session.startRunning()
+                
+                DispatchQueue.main.async {
+                    let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+                    self.view.layer.addSublayer(previewLayer)
+                    previewLayer.frame = self.view.frame
+                    
+                }
+                let dataOutput = AVCaptureVideoDataOutput()
+                dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+                session.addOutput(dataOutput)
+            }
+        }
+
 //        frozenImageView = UIImageView(frame: view.bounds)
 //        frozenImageView?.contentMode = .scaleAspectFit
 //        frozenImageView?.isHidden = true
@@ -66,14 +73,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             fatalError("Failed to load CoreML Model") }
         
         do {
-            let request = VNCoreMLRequest(model: model){
-                (finishedReq, err) in
+            let request = VNCoreMLRequest(model: model){ (finishedReq, err) in
                 DispatchQueue.main.async ( execute:{
-                    self.Status.text = "Show the cards"
-
+//ib
                     if let results = finishedReq.results {
-                        self.Status.text = "Analyzing ..."
-
                         if results.count != 4{
                             self.isAnalyzing = false
                             self.Status.text = "Card is not 4!"

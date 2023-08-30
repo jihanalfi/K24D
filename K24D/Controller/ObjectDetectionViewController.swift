@@ -18,7 +18,7 @@ class ObjectDetectionViewController: UIViewController {
     func setupVision() -> NSError? {
         let error: NSError! = nil
         
-        guard let model = try? VNCoreMLModel(for: CardDetectorModel().model) else { fatalError("Failed to load CoreML Model") }
+        guard let model = try? VNCoreMLModel(for: NewCardDetectionModel().model) else { fatalError("Failed to load CoreML Model") }
         
         return error
         
